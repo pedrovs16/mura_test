@@ -1,0 +1,35 @@
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+    - id: check-case-conflict
+    - id: check-toml
+    - id: end-of-file-fixer
+    - id: trailing-whitespace
+
+-   repo: local
+    hooks:
+    - id: commit-msg
+      name: conventional commit messages
+      language: pygrep
+      entry: '^(chore|test|feat|fix|build|docs|refactor)(\([a-z]+\))?(\!)?: [^A-Z].*|^wip.*'
+
+      args: [--multiline, --negate]
+      stages:
+      - commit-msg
+
+-   repo: local
+    hooks:
+    - id: fmt
+      name: fmt-app
+      entry: make fmt
+      language: python
+      require_serial: true
+
+-   repo: local
+    hooks:
+    - id: lint
+      name: lint-app
+      entry: make lint
+      language: python
+      require_serial: true
