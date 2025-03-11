@@ -1,0 +1,18 @@
+services:
+
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    command:
+      - /bin/sh
+      - -e
+      - -c
+      - |
+        alembic upgrade head
+        uvicorn main:app --host 0.0.0.0 --reload
+    volumes:
+      - ./app/:/app
+    depends_on:
+      db:
+        condition: service_healthy

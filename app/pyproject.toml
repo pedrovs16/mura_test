@@ -1,0 +1,106 @@
+[tool.poetry]
+name = "app"
+version = "1.0.0"
+description = "Mura test"
+authors = ["pedrovs16"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "3.10.7"
+python-multipart = "^0.0.7"
+uvicorn = {extras = ["standard"], version = "^0.24.0.post1"}
+SQLAlchemy = "^1.4.41"
+alembic = "^1.8.1"
+psycopg2-binary = "^2.9.3"
+FastAPI-SQLAlchemy = "^0.2.1"
+gunicorn = "^22.0.0"
+watchfiles = "^0.18.1"
+python-dotenv = "^0.21.0"
+celery = "^5.2.7"
+flower = "^1.2.0"
+requests = "^2.32.0"
+sqlalchemy-easy-softdelete = "^0.6.2"
+celery-sqlalchemy-scheduler = "^0.3.0"
+tenacity = "^8.2.2"
+inflection = "^0.5.1"
+anyio = "3.6.2"
+fastapi = "^0.112.2"
+pydantic = "^2.8.2"
+web3 = "^7.2.0"
+fastapi-filter = "^2.0.0"
+fastapi-pagination = "^0.12.26"
+fastapi-restful = "^0.6.0"
+typing-inspect = "^0.9.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.2.0"
+pytest-asyncio = "^0.20.3"
+httpx = "^0.23.2"
+black = "^24.3.0"
+isort = "^5.12.0"
+factory-boy = "^3.3.0"
+ruff = "^0.1.6"
+mypy = "^1.7.1"
+pytest-mock = "^3.12.0"
+freezegun = "^1.4.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line_length = 100
+skip_magic_trailing_comma = true
+
+[tool.isort]
+profile = "black"
+line_length = 100
+
+[tool.ruff]
+select = [
+    "E",   # pycodestyle
+    "F",   # pyflakes
+    "ERA", # eradicate
+    "N",   # pep8-naming
+    "UP",  # pyupgrade
+    "C4",  # flake8-comprehensions
+    "B",   # flake8-bugbear
+    "RUF"  # Ruff-specific rules
+    ]
+unfixable = [
+    "ERA" # do not autoremove commented out code
+]
+ignore = [
+    "E722", # do not use bare 'except'
+    "B904", # Within an `except` clause, raise exceptions with `raise ... from err` or `raise ... from None` to distinguish them from errors in exception handling
+    "B008", # Do not perform function calls in argument defaults.  The call is performed only once at function definition time (bad integration with FastAPI)
+    "N805", # Allow create instance that start with cls and not self
+    "RUF012"
+    ]
+line-length = 100
+target-version = "py310"
+
+[tool.mypy]
+plugins = "sqlalchemy.ext.mypy.plugin"
+namespace_packages = true
+explicit_package_bases = true
+show_error_codes = true
+strict = true
+exclude = [
+    "tests/",
+]
+disable_error_code = [
+    "import-untyped",
+    "type-var"
+]
+warn_return_any = false
+disallow_any_generics = false
+ignore_missing_imports = true
+allow_untyped_defs = true
+allow_untyped_calls = true
+
+[mypy-no-untyped-def]
+# Ignore all errors from "misc" category
+ignore_errors = true
+
+package-mode = false
