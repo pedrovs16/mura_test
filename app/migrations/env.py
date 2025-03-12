@@ -50,7 +50,7 @@ finally:
 
 
 def include_object(object, name, type_, *args, **kwargs):
-    return not (type_ == "table")
+    return not (type_ == "table" and name in [])
 
 
 def run_migrations_offline() -> None:

@@ -1,0 +1,11 @@
+from domain.constants.enums.exception_code import ErrorCode
+
+
+class GenericErrorCode(ErrorCode):
+    UNEXPECTED_ERROR = "UNEXPECTED_ERROR"
+    INVALID_JSON = "INVALID_JSON"
+    MISSING_FIELD = "MISSING_FIELD"
+    INVALID_VALUE = "INVALID_VALUE"
+    NOT_FOUND = "NOT_FOUND"
+    UNIQUE_VIOLATION = "UNIQUE_VIOLATION"
+    FOREIGN_KEY_VIOLATION = "FOREIGN_KEY_VIOLATION"
