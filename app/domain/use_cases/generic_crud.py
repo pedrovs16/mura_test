@@ -37,8 +37,8 @@ class UpdateUseCase:
 class DeleteUseCase:
     data_port: GenericDataPort
 
-    def execute(self, id: int):
-        self.data_port.delete(id, soft=True, save=True)
+    def execute(self, id: int, soft: bool = True):
+        self.data_port.delete(id, soft=soft, save=True)
 
 
 @dataclass
