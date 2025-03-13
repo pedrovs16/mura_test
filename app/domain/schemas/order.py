@@ -9,12 +9,12 @@ from infrastructure.constants.enums.order import OrderSourceEnum, OrderStatusEnu
 class OrderBaseSchema(BaseModel):
     customer_name: str
     email_id: int | None = None
-    phone: str | None
-    location: str | None
+    phone: str | None = None
+    location: str | None = None
     service_requested: str
-    order_details: str | None
+    order_details: str | None = None
     status: OrderStatusEnum = OrderStatusEnum.PENDING
-    assigned_to: str | None
+    assigned_to: str | None = None
     source: OrderSourceEnum = OrderSourceEnum.OTHER
 
 
