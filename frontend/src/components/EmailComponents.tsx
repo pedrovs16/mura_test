@@ -17,10 +17,20 @@ import {
   DateField,
   DateTimeInput,
   required,
+  CreateButton,
+  TopToolbar,
 } from "react-admin";
+import ReceiveEmailButton from "../components/ReceiveEmailButton";
+
+const ListActions = (props: any) => (
+  <TopToolbar>
+    <CreateButton />
+    <ReceiveEmailButton />
+  </TopToolbar>
+);
 
 export const EmailList = (props: any) => (
-  <List {...props}>
+  <List {...props} actions={<ListActions />}>
     <Datagrid rowClick="show">
       <TextField source="id" />
       <EmailField source="address" label="Sender Email" />
