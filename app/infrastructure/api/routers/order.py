@@ -1,6 +1,7 @@
 from fastapi import Depends, Response, status
 from fastapi_filter import FilterDepends
 from fastapi_pagination import Page, Params, paginate
+from fastapi_pagination.utils import disable_installed_extensions_check
 from fastapi_restful.cbv import cbv
 from fastapi_restful.inferring_router import InferringRouter
 
@@ -18,6 +19,7 @@ from infrastructure.api.query_filters.order import PaginatedOrderFilter
 from infrastructure.api.routers.base import BaseRouter
 
 router = InferringRouter(prefix="/orders", tags=["Orders"])
+disable_installed_extensions_check()
 
 
 @cbv(router)
