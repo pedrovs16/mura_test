@@ -1,7 +1,7 @@
 // dataProvider.ts
 import simpleRestProvider from "ra-data-simple-rest";
 
-const API_URL = "http://localhost:8000";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
 // Create the base provider using the API URL
 const baseProvider = simpleRestProvider(API_URL);
