@@ -1,6 +1,6 @@
 import contextlib
 import json
-import logging
+from loguru import logger
 from collections.abc import Iterator
 from dataclasses import dataclass
 from urllib.parse import urljoin
@@ -10,8 +10,6 @@ import requests
 from config import settings
 from domain.ports.ai import AIIntegrationPort
 from infrastructure.exceptions.chatgpt import ChatGPTServiceFetchingError
-
-logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -24,6 +22,7 @@ class ChatGPTIntegrationAPIAdapter(AIIntegrationPort):
 
     @contextlib.contextmanager
     def _request(self, method: str, route: str, **kwargs) -> Iterator[requests.Response]:
+        logger.info(f"Requesting {method} {route}")
         url = urljoin(settings.CHATGPT_API_URL, route)
         headers = kwargs.pop("headers", {})
 

@@ -1,5 +1,4 @@
-from logging import config, getLogger
-
+from loguru import logger
 from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
@@ -23,11 +22,6 @@ from infrastructure.api.responses.exception_handlers.pydantic import (
 from infrastructure.api.routers import index
 from infrastructure.exceptions.chatgpt import ChatGPTServiceFetchingError
 
-# setup loggers
-config.fileConfig("logging.conf", disable_existing_loggers=False)
-
-# get root logger
-logger = getLogger(__name__)
 logger.info(f"Start of app : {__name__}")
 
 

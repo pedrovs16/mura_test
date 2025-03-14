@@ -1,5 +1,5 @@
 from typing import TYPE_CHECKING, TypeVar
-
+from loguru import logger
 from fastapi_filter.contrib.sqlalchemy import Filter
 
 from domain.ports.common.generic_data_port import (
@@ -41,6 +41,7 @@ class GenericSQLAlchemyAdapter(GenericDataPort):
 
         if save:
             self.session.commit()
+            logger.info(f"Created {self.model.__name__} with id {model_instance.id}")
         else:
             # instanciate the object with a PK but does not persist the changes in the DB
             self.session.flush()
@@ -54,6 +55,7 @@ class GenericSQLAlchemyAdapter(GenericDataPort):
 
         if save:
             self.session.commit()
+            logger.info(f"Created {len(model_instances)} {self.model.__name__} instances")
         else:
             self.session.flush()
 
@@ -69,6 +71,7 @@ class GenericSQLAlchemyAdapter(GenericDataPort):
         if save:
             self.session.commit()
             self.session.refresh(model_instance)
+            logger.info(f"Updated {self.model.__name__} with id {model_instance.id}")
 
         return convert_model_to_entity(model_instance=model_instance, entity_class=self.entity)
 
@@ -81,6 +84,7 @@ class GenericSQLAlchemyAdapter(GenericDataPort):
 
         if save:
             self.session.commit()
+            logger.info(f"Deleted {self.model.__name__} with id {model_instance.id}")
 
     def delete_batch(self, ids: list[int] | None = None, *, soft: bool = True, save: bool = True):
         if ids is None:
@@ -93,6 +97,7 @@ class GenericSQLAlchemyAdapter(GenericDataPort):
 
     def get(self, id: int) -> TEntity:
         model_instance = self._get_model_instance(id)
+        logger.info(f"Retrieved {self.model.__name__} with id {model_instance.id}")
         return convert_model_to_entity(model_instance=model_instance, entity_class=self.entity)
 
     def filter(self, filters: TFilterSchema | None, deleted: bool = False) -> list[TEntity]:
@@ -102,6 +107,7 @@ class GenericSQLAlchemyAdapter(GenericDataPort):
         query = self.session.query(self.model).execution_options(include_deleted=deleted)
         query = filtered_query.filter(query)
         query = filtered_query.sort(query)
+        logger.info(f"Filtered {self.model.__name__} instances")
         return convert_models_to_entities(model_instances=query.all(), entity_class=self.entity)
 
     def _get_model_instance(self, id) -> TModel | None:
