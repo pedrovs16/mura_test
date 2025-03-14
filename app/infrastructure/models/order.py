@@ -14,9 +14,9 @@ class Order(Base, CommonBaseModel):
     location = Column(Text, nullable=True)
     service_requested = Column(Text, nullable=False)
     order_details = Column(Text, nullable=True)  # Parsed AI response
-    status = Column(Enum(OrderStatusEnum), default=OrderStatusEnum.PENDING)
+    status = Column(Enum(OrderStatusEnum), default=OrderStatusEnum.PENDING, nullable=False)
     assigned_to = Column(String(255), nullable=True)
-    source = Column(Enum(OrderSourceEnum), default=OrderSourceEnum.OTHER)
+    source = Column(Enum(OrderSourceEnum), default=OrderSourceEnum.EMAIL, nullable=False)
 
     def __repr__(self):
         return f"<WorkOrder(id={self.id}, customer={self.customer_name}, status={self.status})>"

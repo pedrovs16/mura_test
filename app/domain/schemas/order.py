@@ -15,7 +15,7 @@ class OrderBaseSchema(BaseModel):
     order_details: str | None = None
     status: OrderStatusEnum = OrderStatusEnum.PENDING
     assigned_to: str | None = None
-    source: OrderSourceEnum = OrderSourceEnum.OTHER
+    source: OrderSourceEnum = OrderSourceEnum.EMAIL
 
 
 class OrderCreateSchema(OrderBaseSchema):
