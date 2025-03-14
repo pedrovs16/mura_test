@@ -26,6 +26,10 @@ class Settings(CommonSettings):
 
     TEST_DB_NAME: str = "test_db"
 
+    CHATGPT_API_KEY: str = os.getenv("CHATGPT_API_KEY")
+    CHATGPT_API_URL: str = os.getenv("CHATGPT_API_URL", "https://api.openai.com/v1/")
+    CHATGPT_MODEL: str = os.getenv("CHATGPT_MODEL", "davinci")
+
     def __init__(self):
         super().__init__()
         self.APP_NAME = os.getenv("APP_NAME", "Mura test")
