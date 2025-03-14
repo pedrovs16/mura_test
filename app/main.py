@@ -21,6 +21,7 @@ from infrastructure.api.responses.exception_handlers.pydantic import (
     pydantic_validation_exception_handler,
 )
 from infrastructure.api.routers import index
+from infrastructure.exceptions.chatgpt import ChatGPTServiceFetchingError
 
 # setup loggers
 config.fileConfig("logging.conf", disable_existing_loggers=False)
@@ -55,3 +56,4 @@ app.add_exception_handler(ValidationError, pydantic_validation_exception_handler
 app.add_exception_handler(NoResultFound, no_result_found_exception_handler)
 app.add_exception_handler(IntegrityError, integrity_exception_handler)
 app.add_exception_handler(CustomValidationError, custom_validation_handler)
+app.add_exception_handler(ChatGPTServiceFetchingError, custom_validation_handler)
