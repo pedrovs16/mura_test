@@ -1,5 +1,5 @@
 from datetime import datetime
-from sqlalchemy import BigInteger, Column, String, Text, DateTime, ForeignKey, JSON
+from sqlalchemy import BigInteger, Column, String, Text, DateTime
 from infrastructure.db import Base
 from infrastructure.models.common import CommonBaseModel
 

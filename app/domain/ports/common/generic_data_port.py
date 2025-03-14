@@ -31,11 +31,11 @@ class GenericDataPort(Generic[TCreateSchema, TUpdateSchema, TFilterSchema, TEnti
         pass
 
     @abstractmethod
-    def delete(self, id: int, *, soft: bool = True, save: bool = True):
+    def delete(self, id: int, *, soft: bool = True, save: bool = True) -> None:
         pass
 
     @abstractmethod
-    def delete_batch(self, ids: list[int], *, soft: bool = True, save: bool = True):
+    def delete_batch(self, ids: list[int], *, soft: bool = True, save: bool = True) -> list[int]:
         pass
 
     @abstractmethod

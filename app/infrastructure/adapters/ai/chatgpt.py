@@ -14,7 +14,7 @@ from infrastructure.exceptions.chatgpt import ChatGPTServiceFetchingError
 
 @dataclass
 class ChatGPTIntegrationAPIAdapter(AIIntegrationPort):
-    def _handle_error(self, error_message: str, response: requests.Response = None):
+    def _handle_error(self, error_message: str, response: requests.Response = None) -> None:
         if response:
             error_message += f" - Response: {response.text}"
         logger.error(error_message)
@@ -53,8 +53,8 @@ class ChatGPTIntegrationAPIAdapter(AIIntegrationPort):
                     "role": "system",
                     "content": (
                         "You are an AI assistant that extracts structured information from emails "
-                        "and responds with a JSON object. Extract the customer's name, phone number, "
-                        "location, service requested, and order details."
+                        "and responds with a JSON object. Extract the customer's name, phone "
+                        "number, location, service requested, and order details."
                     ),
                 },
                 {
@@ -69,8 +69,8 @@ class ChatGPTIntegrationAPIAdapter(AIIntegrationPort):
                         '  "service_requested": "...",\n'
                         '  "order_details": "..." \n'
                         "}\n\n"
-                        'If you cannot find a field, set it to an empty string (`""`). '
-                        "Do not include any extra text or explanations, return ONLY the JSON object."
+                        'If you cannot find a field, set it to an empty string (`""`). Do '
+                        "not include any extra text or explanations, return ONLY the JSON object."
                     ),
                 },
             ],
