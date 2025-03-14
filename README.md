@@ -4,14 +4,14 @@
 ---
 
 ## Overview  
-This project automates work order creation from email requests using AI-powered parsing. It integrates email processing, a FastAPI backend, LLMs (GPT-4o), a PostgreSQL database, and an FSM (Field Service Management) software to streamline service request handling.  
+This project automates work order creation from email requests using AI-powered parsing. It integrates email processing, a FastAPI backend, LLMs (GPT-4o), a PostgreSQL database.  
 
 ## Features  
-✅ **Email Processing** – Automatically receives and parses work order requests via SendGrid.  
+✅ **Email Processing** – Automatically receives and parses work order requests.  
 ✅ **AI-Powered Parsing** – Uses GPT-4o to extract structured order details.  
-✅ **Database Storage** – Stores work orders and agent data in AWS RDS PostgreSQL.  
-✅ **FSM Integration** – Creates work orders in an FSM system for task execution.  
+✅ **Database Storage** – Stores work orders and agent data in PostgreSQL.  
 ✅ **Frontend Dashboard** – Next.js UI for tracking orders and managing requests.  
+🛑 **FSM Integration** – Creates work orders in an FSM system for task execution.  
 
 ---
 
@@ -19,9 +19,8 @@ This project automates work order creation from email requests using AI-powered 
 - **Frontend**: [Next.js](https://nextjs.org/) (Hosted on Vercel)  
 - **Backend**: [FastAPI](https://fastapi.tiangolo.com/) (Deployed on AWS ECS)  
 - **AI/NLP**: [GPT-4o](https://openai.com/) for order parsing  
-- **Database**: [AWS RDS PostgreSQL](https://aws.amazon.com/rds/)  
-- **Email Processing**: [SendGrid](https://sendgrid.com/)  
-- **FSM Software**: External integration for work order automation  
+- **Database**: [PostgreSQL](https://www.postgresql.org/)  
+- **FSM Software**: External integration for work order automation (Not implemented)
 
 ---
 
@@ -44,31 +43,33 @@ This project automates work order creation from email requests using AI-powered 
 
 ### 1. Clone the Repository  
 ```bash
-git clone https://github.com/pedrovs16/muro_test.git
-cd muro_test
+git clone https://github.com/pedrovs16/mura_test.git
+cd mura_test
 ```
 
 ### 2. Backend Setup (FastAPI)  
-#### Install Dependencies  
+#### Run conteiners  
 ```bash
 cd backend
-python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
-pip install -r requirements.txt
+make up_d
 ```
 
 #### Set Up Environment Variables  
 Create a `.env` file in the `backend/` directory:  
 ```ini
-SENDGRID_API_KEY=your_sendgrid_api_key
-OPENAI_API_KEY=your_gpt4_api_key
-DATABASE_URL=postgresql://user:password@aws-rds-url/dbname
-FSM_API_URL=your_fsm_api_endpoint
-```
+APP_NAME=Mura test
+HOST_APP_PORT=8000
+HOST_DB_PORT=5432
 
-#### Run the API Locally  
-```bash
-uvicorn main:app --reload --host 0.0.0.0 --port 8000
+DB_USER=postgres
+DB_PASSWORD=postgres
+DB_NAME=mura_test_db
+DB_PORT=5432
+DB_HOST=db
+
+CHATGPT_API_KEY=key
+CHATGPT_API_URL=https://api.openai.com/v1/
+CHATGPT_MODEL=gpt-4o-mini-2024-07-18
 ```
 
 ---
@@ -85,18 +86,35 @@ npm install
 npm run dev
 ```
 
+#### Set Up Environment Variables  
+Create a `.env` file in the `frontend/` directory:  
+```ini
+NEXT_PUBLIC_API_URL=http://localhost:8000
+```
+
 ---
 
 ## API Endpoints (FastAPI)  
 | Endpoint | Method | Description |
 |----------|--------|-------------|
-| `/parse-email` | `POST` | Receives and processes email content |
-| `/create-order` | `POST` | Creates a work order in FSM software |
-| `/orders` | `GET` | Retrieves all stored work orders |
+| `/emails/` | `POST` | Creates a new email entry |
+| `/emails/{id}` | `PUT` | Updates an existing email entry |
+| `/emails/{id}` | `DELETE` | Deletes an email entry |
+| `/emails/{id}` | `GET` | Retrieves an email entry by ID |
+| `/emails/` | `GET` | Filters and paginates email entries |
+| `/emails/receive` | `POST` | Receives and processes email content |
+| `/orders/{id}` | `PUT` | Updates an existing orders entry |
+| `/orders/{id}` | `DELETE` | Deletes an orders entry |
+| `/orders/{id}` | `GET` | Retrieves an orders entry by ID |
+| `/orders/` | `GET` | Filters and paginates orders entries |
+| `/orders/receive` | `POST` | Receives and processes orders content |
 
 ---
 
-## Possibles Enhancements  
-- ✅ Implement **user authentication** with AWS Cognito.  
-- ✅ Add **real-time order tracking** via WebSockets.  
-- ✅ Enhance AI parsing for better request understanding.  
+## Missing Enhancements  
+- ✅ Implement **user authentication** with Auth0.  
+- ✅ Add more validators.  
+- ✅ Unit tests.  
+- ✅ Sendgrid integrations.
+- ✅ FSM integration.
+- ✅ Frontend css.
