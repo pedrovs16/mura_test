@@ -13,7 +13,10 @@ from domain.use_cases.generic_crud import (
     GetUseCase,
     UpdateUseCase,
 )
+from domain.use_cases.email import ReceiveEmailUseCase
 from infrastructure.adapters.data.email_sqlalchemy_adapter import EmailSQLAlchemyAdapter
+from infrastructure.adapters.ai.chatgpt import ChatGPTIntegrationAPIAdapter
+from infrastructure.adapters.data.order_sqlalchemy_adapter import OrderSQLAlchemyAdapter
 from infrastructure.api.query_filters.email import PaginatedEmailFilter
 from infrastructure.api.routers.base import BaseRouter
 
@@ -57,3 +60,11 @@ class EmailRouter(BaseRouter):
         total = paginated_data.total
         response.headers["Content-Range"] = f"emails {first}-{last}/{total}"
         return paginated_data
+
+    @router.post("/receive", status_code=status.HTTP_201_CREATED, response_model=EmailEntity)
+    async def receive_email(self, body: EmailCreateSchema) -> EmailEntity:
+        return ReceiveEmailUseCase(
+            email_data_port=EmailSQLAlchemyAdapter(self.session),
+            order_data_port=OrderSQLAlchemyAdapter(self.session),
+            ai_port=ChatGPTIntegrationAPIAdapter(),
+        ).execute(body)
