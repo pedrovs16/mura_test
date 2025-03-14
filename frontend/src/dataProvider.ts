@@ -8,18 +8,24 @@ const baseProvider = simpleRestProvider(API_URL);
 
 const dataProvider = {
   ...baseProvider,
-  // Override getList to adapt FastAPI pagination (assumes response data is like: { items: [...], total: number, ... })
-  getList: (resource: string, params: any) =>
-    baseProvider.getList(resource, params).then((response) => {
-      const { items, total } = response.data as unknown as {
-        items: any[];
-        total: number;
-      };
-      return {
-        data: items,
-        total: total,
-      };
-    }),
+  getList: (resource: string, params: any) => {
+    const { page, perPage } = params.pagination;
+    const url = `${API_URL}/${resource}/?page=${page}&size=${perPage}`;
+
+    return fetch(url)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(response.statusText);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        return {
+          data: data.items,
+          total: data.total,
+        };
+      });
+  },
 };
 
 export default dataProvider;
