@@ -26,6 +26,31 @@ const dataProvider = {
         };
       });
   },
+  create: async (resource: string, params: any) => {
+    let url;
+    if (resource === "emails/receive") {
+      url = `${API_URL}/${resource}`;
+    } else {
+      url = `${API_URL}/${resource}/`;
+    }
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(params.data),
+    });
+
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+
+    const data = await response.json();
+    return {
+      data: data,
+    };
+  },
 };
 
 export default dataProvider;
